@@ -62,10 +62,6 @@ const deleteItem = async (id) => {
   }
 };
 
-const editItem = (item) => {
-  router.push({ name: 'editForm', params: { id: item.id } });
-};
-
 onMounted(() => {
   fetchData();
   
@@ -102,4 +98,10 @@ onMounted(() => {
 #btnView {
   position: fixed;
 }
+
+#btnEdit {
+  margin-right: 5px;
+
+}
+
 </style>

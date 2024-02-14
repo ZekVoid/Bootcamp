@@ -1,4 +1,4 @@
-<template>
+<template>  
     
   <div class="form-addview">
     <router-link id="btnAdd" class="button" to="/form-addview">Add Details</router-link>
@@ -25,7 +25,7 @@
       <button id="btnSubmit" type="submit" class="btn btn-primary">
         Submit
       </button>
-      <button class="btn btn-primary" type="update" @click="updateItem(item.id)">Update</button>
+      <button id="btnUpdate" class="btn btn-primary" type="update" @click="updateItem(          .id)">Update</button>
     </div>
     
   </form>
@@ -46,20 +46,20 @@ const lastName = ref('');
 const birthday = ref('');
 const address = ref('');
 
-const fetchData = async () => {
-  try {
-    const response = await axios.get('http://127.0.0.1:8000/api/Student'); 
-    const student = response.data;
-    if (student) {
-      firstName.value = student.first_name;
-      lastName.value = student.last_name; 
-      +      birthday.value = student.birthday;
-      address.value = student.address;
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-};
+// const fetchData = async () => {
+//   try {
+//     const response = await axios.get('http://127.0.0.1:8000/api/Student'); 
+//     const student = response.data;
+//     if (student) {
+//       firstName.value = student.first_name;
+//       lastName.value = student.last_name; 
+//       +      birthday.value = student.birthday;
+//       address.value = student.address;
+//     }
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//   }
+// };
 
 
 
@@ -173,6 +173,12 @@ const showAlert = (title, message) => {
   margin-right: 20px;
 
 }
+
+#btnSubmit {
+
+  margin-right: 10px;
+}
+
 
 </style>
 
