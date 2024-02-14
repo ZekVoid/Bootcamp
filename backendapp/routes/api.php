@@ -20,12 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('Student', function(Request $request) {
+Route::get('Student', function (Request $request) {
     $StudentDetails = StudentModel::all();
-    return response()->json($StudentDetails) ;
+    return response()->json($StudentDetails);
 });
 
-Route::post('Student', function(Request $request) {
+Route::post('Student', function (Request $request) {
     $rules = [
         'FirstName' => 'required|string|max:255',
         'LastName' => 'required|string|max:255',
@@ -48,4 +48,28 @@ Route::post('Student', function(Request $request) {
 
     StudentModel::create($studentDetails);
     return response()->json(['message' => 'Student created successfully'], 201);
+});
+
+Route::delete('Student/{id}', function ($id) {
+    $student = StudentModel::find($id);
+    
+    if ($student) {
+        $student->delete();
+        
+        return response()->json(['message' => 'Student deleted successfully'], 200);
+    } else {
+        return response()->json(['error' => 'Student not found'], 404);
+    }
+
+Route::put('Student/{id}', function ($id, Request $request) {
+    $student = StudentModel::find($id);
+    
+    if ($student) {
+        $student->update($request->all());
+        return response()->json(['message' => 'Student updated successfully', 'data' => $student], 200);
+    } else {
+        return response()->json(['error' => 'Student not found'], 404);
+    }
+});
+
 });

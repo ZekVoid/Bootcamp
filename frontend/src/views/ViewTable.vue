@@ -1,46 +1,38 @@
 <template>
-    <div class="form-viewdetails">
-
+  <div class="form-viewdetails">
     <router-link id="btnAdd" class="button" to="/form-addview">Add Details</router-link>
     <router-link id="btnView" class="button" to="/form-viewdetails">View Details</router-link>
 
-      <table id="table" class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Birthday</th>
-            <th scope="col">Address</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in items" :key="index">
-            <th scope="row">{{ index + 1 }}</th>
-            <td>{{ item.first_name }}</td>
-            <td>{{ item.last_name }}</td>
-            <td>{{ item.birthday }}</td>
-            <td>{{ item.address }}</td> 
-
-            <td>
-            <button class="btn btn-primary" @click="editItem(item)">Edit</button>
-            </td>
-            <td>
+    <table id="table" class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Birthday</th>
+          <th scope="col">Address</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in items" :key="index">
+          <td>{{ index + 1 }}</td>
+          <td>{{ item.first_name }}</td>
+          <td>{{ item.last_name }}</td>
+          <td>{{ item.birthday }}</td>
+          <td>{{ item.address }}</td>
+          <td>
+            <router-link id="btnEdit" class="btn btn-primary" to="/btn-edit">Edit</router-link>
             <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>  
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <router-view/>
+</template>
 
-
-    <RouterView/>
-
-  </template>
-
-
-  <script setup>
-  
+<script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
@@ -55,19 +47,40 @@ const fetchData = async () => {
   }
 };
 
+const showAlert = (type, message) => {
+  alert(`${type}: ${message}`);
+};
+
+const deleteItem = async (id) => {
+  try {
+    await axios.delete(`http://127.0.0.1:8000/api/Student/${id}`);
+    await fetchData(); 
+    showAlert('Success', 'Item deleted successfully');
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    showAlert('Error', 'Failed to delete item');
+  }
+};
+
+const editItem = (item) => {
+  router.push({ name: 'editForm', params: { id: item.id } });
+};
+
 onMounted(() => {
   fetchData();
+  
 });
 
-    
-  </script>
-  
-  <style scoped>
+
+
+</script>
+
+<style scoped>
 .table {
-    width: 100%;
-    margin-top: 30px;
-    margin-left: -100px;
-    width: 250%;
+  width: 100%;
+  margin-top: 30px;
+  margin-left: -100px; 
+  width: 250%; 
 }
 
 .button {
@@ -81,15 +94,12 @@ onMounted(() => {
   cursor: pointer;
 }
 
-#btnAdd{
-    margin-right: 5%;
-    margin-left: 195px;
+#btnAdd {
+  margin-right: 2%;
+  margin-left: 345px;
 }
 
-#btnAdd #btnView {
-    position: fixed;
+#btnView {
+  position: fixed;
 }
-
-  </style>
-  
-  
+</style>

@@ -25,6 +25,7 @@
       <button id="btnSubmit" type="submit" class="btn btn-primary">
         Submit
       </button>
+      <button class="btn btn-primary" type="update" @click="updateItem(item.id)">Update</button>
     </div>
     
   </form>
@@ -44,6 +45,35 @@ const firstName = ref('');
 const lastName = ref('');
 const birthday = ref('');
 const address = ref('');
+
+const fetchData = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/Student'); 
+    const student = response.data;
+    if (student) {
+      firstName.value = student.first_name;
+      lastName.value = student.last_name; 
+      +      birthday.value = student.birthday;
+      address.value = student.address;
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+
+
+
+const updateItem = async (id, updatedData) => {
+  try {
+    const response = await axios.put(`http://127.0.0.1:8000/api/Student/${id}`, updatedData);
+    showAlert('Success', 'Item updated successfully');
+    return response.data; 
+  } catch (error) {
+    console.error('Error updating item:', error);
+    showAlert('Error', 'Failed to update item');
+    throw error; 
+  }
+}
 
 const submitForm = () => {
   axios.post('http://127.0.0.1:8000/api/Student', {
@@ -145,5 +175,20 @@ const showAlert = (title, message) => {
 }
 
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
