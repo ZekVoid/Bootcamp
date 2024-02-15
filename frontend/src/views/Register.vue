@@ -38,7 +38,7 @@
   const password = ref('');
   
   const submitForm = () => {
-    axios.post('http://127.0.0.1:8000/api/register', {
+    axios.post('http://127.0.0.1:8000/api/Register', {
       Email: email.value,
       Password: password.value,
     })
