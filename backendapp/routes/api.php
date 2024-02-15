@@ -5,6 +5,7 @@ use App\Models\StudentModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Api\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,3 +114,5 @@ Route::put('Student/{id}', function ($id, Request $request) {
     
     return response()->json(['message' => 'Student updated successfully', 'data' => $student], 200);
 });
+
+Route::post('/login', [AuthenticationController::class, 'login']);
