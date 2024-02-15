@@ -61,15 +61,28 @@ Route::delete('Student/{id}', function ($id) {
         return response()->json(['error' => 'Student not found'], 404);
     }
 
-Route::put('Student/{id}', function ($id, Request $request) {
+});
+
+Route::get('Student/view/{id}', function ($id) {
     $student = StudentModel::find($id);
     
     if ($student) {
-        $student->update($request->all());
-        return response()->json(['message' => 'Student updated successfully', 'data' => $student], 200);
+        return response()->json(compact('student'), 200);
     } else {
         return response()->json(['error' => 'Student not found'], 404);
     }
+
 });
 
+Route::put('Student/{id}', function ($id, Request $request) {
+    $student = StudentModel::findOrFail($id);
+    
+    $student->update([
+        'first_name' => $request->input('first_name'),
+        'last_name' => $request->input('last_name'),
+        'birthday' => $request->input('birthday'),
+        'address' => $request->input('address')
+    ]);
+    
+    return response()->json(['message' => 'Student updated successfully', 'data' => $student], 200);
 });
