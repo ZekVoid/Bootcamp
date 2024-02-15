@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\LoginModel;
 use App\Models\StudentModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,32 @@ use Illuminate\Support\Facades\Validator;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('Register', function (Request $request) {
+    $LoginDetails = LoginModel::all();
+    return response()->json($LoginDetails);
+});
+
+Route::post('Register', function (Request $request) {
+    $rules = [
+        'Email' => 'required|string|max:255',
+        'Password' => 'required|string|max:255',
+    ];
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    $LoginDetails = [
+        'email' => $request->Email,
+        'password' => $request->Password,
+    ];
+
+    LoginModel::create($LoginDetails);
+    return response()->json(['message' => 'Registered successfully'], 201);
 });
 
 Route::get('Student', function (Request $request) {
