@@ -21,7 +21,7 @@
             <ul class="dropdown-menu">
               <li><router-link class="dropdown-item" to="/enroll-form">Enroll</router-link></li>
               <li><hr class="dropdown-divider"></li>
-              <li><router-link class="dropdown-item" to="/etc">Etc...</router-link></li>
+              <li><router-link class="dropdown-item" to="/pdfviewer">PDF Viewer</router-link></li>
             </ul>
           </li>
         </ul>
