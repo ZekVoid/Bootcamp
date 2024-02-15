@@ -42,6 +42,10 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+            ],
     
         // ...
     ],

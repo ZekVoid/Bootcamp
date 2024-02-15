@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticationController extends Controller
@@ -14,13 +16,14 @@ class AuthenticationController extends Controller
         $credentials = $request->only('email', 'password');
         
         if (Auth::attempt($credentials)) {
-            /** @var \App\Models\User $user **/
-            $user = Auth::user();
+            $user = User::where('email', $credentials['email'],$credentials['password'])->first();
             $token = $user->createToken('token-name')->plainTextToken;
 
             return response()->json(['token' => $token]);
         }
+        else {
 
         return response()->json(['error' => 'Invalid credentials'], 401);
     }
+}
 }
