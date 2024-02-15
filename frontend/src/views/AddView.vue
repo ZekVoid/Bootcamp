@@ -52,6 +52,11 @@ export default {
   },
   methods: {
     updateItem() {
+      if (!this.firstName || !this.lastName || !this.birthday || !this.address) {
+        this.showAlert('Error', 'No data to update. Please fill in all input fields.');
+        return;
+      }
+
       const itemId = this.$route.query.id;
       axios.put(`http://127.0.0.1:8000/api/Student/${itemId}`, {
         first_name: this.firstName,
@@ -69,6 +74,11 @@ export default {
       });
     },
     submitForm() {
+      if (!this.firstName || !this.lastName || !this.birthday || !this.address) {
+        this.showAlert('Error', 'Please fill in all input fields.');
+        return;
+      }
+      
       axios.post('http://127.0.0.1:8000/api/Student', {
         FirstName: this.firstName,
         LastName: this.lastName,
@@ -77,12 +87,10 @@ export default {
       })
       .then(response => {
         console.log(response.data);
-
         this.firstName = '';
         this.lastName = '';
         this.birthday = '';
         this.address = '';
-
         this.showAlert('Success', 'Form submitted successfully!');
       })
       .catch(error => {
@@ -117,8 +125,7 @@ export default {
 }
 
 .form-row {
-  margin-top: 40px;
-  margin-left: -10%;
+  margin-top: 15px;
   width: 200%;
 }
 

@@ -22,7 +22,7 @@
             <td>{{ item.birthday }}</td>
             <td>{{ item.address }}</td>
             <td>
-              <router-link :to="{ name: 'editbtn', query: { id: item.id }}" class="btn btn-primary">Edit</router-link>
+              <router-link id="btnEdit" :to="{ name: 'editbtn', query: { id: item.id }}" class="btn btn-primary">Edit</router-link>
               <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
             </td>
           </tr>
@@ -91,7 +91,7 @@
 
   #btnAdd {
     margin-right: 2%;
-    margin-left: 345px;
+    margin-left: 450px;
   }
 
   #btnView {
