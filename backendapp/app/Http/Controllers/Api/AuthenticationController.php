@@ -9,20 +9,18 @@ use Illuminate\Support\Facades\Auth;
 class AuthenticationController extends Controller
 {
     public function login(Request $request)
-{
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    {
+        //return $request;
+        $credentials = $request->only('email', 'password');
+        
+        if (Auth::attempt($credentials)) {
+            /** @var \App\Models\User $user **/
+            $user = Auth::user();
+            $token = $user->createToken('token-name')->plainTextToken;
 
-    if (Auth::attempt($credentials)) {
-        $user = Auth::user();
-        $token = $user->createToken('api-token')->plainTextToken;
+            return response()->json(['token' => $token]);
+        }
 
-        return response()->json(['token' => $token, 'user' => $user]);
+        return response()->json(['error' => 'Invalid credentials'], 401);
     }
-
-    return response()->json(['error' => 'Invalid credentials'], 401);
-}
-
 }
