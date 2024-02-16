@@ -1,113 +1,72 @@
-<template>  
-    
-    <div class="form-register">
-      <h2>
-        REGISTER
-      </h2>
-  
+<template>
+  <div class="form-register">
+    <h2>REGISTER</h2>
     <form @submit.prevent="submitForm">
       <div class="form-row">
         <div class="col">
+          <input v-model="name" type="text" class="form-control" placeholder="Name">
+        </div>
+        <div class="col">
           <input v-model="email" type="email" class="form-control" placeholder="Email">
         </div>
-        <br/>
         <div class="col">
           <input v-model="password" type="password" class="form-control" placeholder="Password">
         </div>
-        <br/>
-        <br/>
-        <button id="btnSubmit" type="submit" class="btn btn-primary">
-          Submit
-        </button>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
-      
     </form>
-  
   </div>
-  
-    <RouterView/>
-  </template>
-  
-  <script setup>
+</template>
 
-  import { ref } from 'vue';
-  import axios from 'axios';
-  import { RouterLink } from 'vue-router';
-  
-  const email = ref('');
-  const password = ref('');
-  
-  const submitForm = () => {
-    axios.post('http://127.0.0.1:8000/api/Register', {
-      Email: email.value,
-      Password: password.value,
-    })
-    .then(response => {
-      console.log(response.data);
-  
-      email.value = '';
-      password.value = '';
-      showAlert('Success', 'Form submitted successfully!');
-    })
-    .catch(error => {
-      console.error(error.response.data);
-      showAlert('Error', 'Form submission failed. Please try again later.');
+<script setup>
+import { ref } from 'vue';
+import axios from 'axios';
+
+const name = ref('');
+const email = ref('');
+const password = ref('');
+
+const submitForm = async () => {
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/auth/register', {
+      name: name.value,
+      email: email.value,
+      password: password.value
     });
-  };
-  
-  const showAlert = (title, message) => {
-    alert(`${title}: ${message}`);
-  };
-  
-  </script>
-  
-  <style scoped>
 
-  .form-control {
-   width: 100%;
+    console.log(response.data);
+    name.value = '';
+    email.value = '';
+    password.value = '';
+    showAlert('Success', 'Form submitted successfully!');
+  } catch (error) {
+    console.error(error.response.data);
+    showAlert('Error', 'Form submission failed. Please try again later.');
   }
-  
-  h2 {
-    margin-left: 50%;
-    font-weight: bold;
+};
 
-  }
+const showAlert = (title, message) => {
+  alert(`${title}: ${message}`);
+};
+</script>
 
-  .form-row {
-    margin-top: 40px;
-    margin-left: -10%;
-    width: 200%;
-  }
-  
-  .button {
-  display: inline-block;
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  align-items: center;
+<style scoped>
+.form-control {
+  width: 100%;
 }
 
-.button:hover {
-  background-color: #0056b3;
+h2 {
+  margin-left: 50%;
+  font-weight: bold;
 }
-  
-  #btnAdd {
-    margin-right: 2%;
-    margin-left: 50%;
-  }
-  
-  #btnView {
-    position: fixed;
-  }
-  
-  #btnSubmit {
-  
-    margin-right: 10px;
-  }
-  
-  
-  </style>
+
+.form-row {
+  margin-top: 40px;
+  margin-left: -10%;
+  width: 200%;
+}
+
+.btn {
+  margin-right: 10px;
+}
+</style>
