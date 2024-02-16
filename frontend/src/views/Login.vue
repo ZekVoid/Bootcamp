@@ -52,7 +52,7 @@ data() {
 },
 methods: {
   login() {
-    axios.get('http://127.0.0.1:8000/api/login', {
+    axios.get('http://127.0.0.1:8000/api/auth/login', {
       email: this.email,
       password: this.password
     })
