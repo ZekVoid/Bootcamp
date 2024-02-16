@@ -1,48 +1,26 @@
 <template>
-  <section class="login-section">
-    <div class="login-container">
-      <div class="login-image">
-        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" alt="Sample image">
+  <div class="form-login">
+    <h2>Login</h2>
+    <form @submit.prevent="submitForm">
+      <div class="form-row">
+        <div class="col">
+          <input v-model="email" type="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="col">
+          <input v-model="password" type="password" class="form-control" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
       </div>
-      <div class="login-form">
-        <form>
-          <div class="social-login">
-            <p>Sign in</p>
-          </div>
-          <div class="form-group">
-            <input v-model="email" type="email" class="form-control" placeholder="Email">
-          </div>
-          <div class="form-group">
-            <input v-model="password" type="password" class="form-control" placeholder="Password">
-          </div>
-          <div class="checkbox-section">
-            <div class="form-check">
-              <input type="checkbox" id="form2Example3" class="form-check-input" />
-              <label for="form2Example3" class="form-check-label">Remember me</label>
-            </div>
-            <router-link to="/forgot-password" class="forgot-password">Forgot password?</router-link>
-          </div>
-          <div class="login-button">
-            <router-link to="/loggedin" type="button" class="btn btn-primary btn-lg btn-block">Login</router-link>
-          </div>
-          <div class="register-section">
-            <p>Don't have an account? <router-link to="/register" class="register-link">Register</router-link></p>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="footer-section">
-      <div class="copyright">
-        Copyright © 2024. All rights reserved.
-      </div>
-    </div>
-  </section>
+    </form>
+    <p>Don't have an account? <router-link to="/register" class="register-link">Register</router-link></p>
+  </div>
 </template>
 
-
-<script>
+<script setup>
+import { ref } from 'vue';
 import axios from 'axios';
 
+<<<<<<< HEAD
 export default {
 data() {
   return {
@@ -65,98 +43,51 @@ methods: {
       // Handle login error
       console.error(error);
       alert("Login failed. Please check your credentials.");
+=======
+const email = ref('');
+const password = ref('');
+
+const submitForm = async () => {
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/auth/login', {
+      email: email.value,
+      password: password.value
+>>>>>>> 1f0be9b017356365cac228ba6b0fc262a59c781f
     });
+
+    console.log(response.data);
+    // Store token securely (e.g., in local storage or HTTP-only cookie)
+    // Redirect to dashboard or perform other actions as needed
+
+    showAlert('Success', 'Logged in successfully!');
+  } catch (error) {
+    console.error(error.response.data);
+    showAlert('Error', 'Login failed. Please check your credentials and try again.');
   }
-}
-}
+};
+
+const showAlert = (title, message) => {
+  alert(`${title}: ${message}`);
+};
 </script>
 
-
-
 <style scoped>
-.login-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+.form-control {
   width: 100%;
-  margin-left: 300px;
 }
 
-.login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 400px;
-  width: 100%;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.login-image img {
-  width: 100%;
-  height: auto;
-}
-
-.login-form {
-  width: 100%;
-  margin-top: 20px;
-}
-
-.social-login {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.social-login p {
+h2 {
+  margin-left: 50%;
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
-.divider {
-  text-align: center;
-  margin-bottom: 20px;
+.form-row {
+  margin-top: 40px;
+  margin-left: -10%;
+  width: 200%;
 }
 
-.divider p {
-  font-weight: bold;
-  font-size: 16px;
-  color: #999;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-.checkbox-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.forgot-password {
-  font-size: 16px;
-  color: #007bff;
-  text-decoration: none;
-}
-
-.login-button button {
-  padding: 8px;
-  border: none;
-  border-radius: 5px;
-
+.btn {
+  margin-right: 10px;
 }
 </style>
