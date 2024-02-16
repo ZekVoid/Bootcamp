@@ -4,8 +4,9 @@ use App\Models\LoginModel;
 use App\Models\StudentModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,9 @@ use App\Http\Controllers\Api\AuthenticationController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('/auth/register', [UserController::class, 'createUser']);
+Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -115,4 +119,3 @@ Route::put('Student/{id}', function ($id, Request $request) {
     return response()->json(['message' => 'Student updated successfully', 'data' => $student], 200);
 });
 
-Route::post('/login', [AuthenticationController::class, 'login']);
