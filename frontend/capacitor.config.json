@@ -1,0 +1,8 @@
+{
+  "appId": "com.example.vueproject",
+  "appName": "My Vue Project",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

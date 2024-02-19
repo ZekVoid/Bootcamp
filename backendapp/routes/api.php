@@ -35,6 +35,8 @@ Route::post('Register', function (Request $request) {
     $rules = [
         'Email' => 'required|string|max:255',
         'Password' => 'required|string|max:255',
+        'Role' => 'required|string|max:255'
+
     ];
 
     $validator = Validator::make($request->all(), $rules);
